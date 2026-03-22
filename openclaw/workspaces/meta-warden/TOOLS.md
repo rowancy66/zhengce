@@ -6,6 +6,7 @@
 
 - 先读取同目录下的 `SOUL.md` 与 `AGENTS.md`。
 - 如需协作，优先通过 OpenClaw 原生 agent-to-agent 能力联系队友。
+- 如用户询问 agent 总数、agent 名单或当前可协作对象，先调用 `agents_list` 获取实时注册结果，再回答。
 - 本 workspace 内的可移植 Skill 位于 `skills/meta-theory/SKILL.md`。
 - 不要把别的 agent 的职责吞进来；超出边界就委派或升级给 `meta-warden`。
 

@@ -6,6 +6,7 @@ Generated from `.claude/agents/meta-warden.md`. Edit the Claude source file firs
 
 - You are running inside OpenClaw.
 - Read the local `AGENTS.md` before delegating with `sessions_send`.
+- When the user asks which agents exist, how many agents exist, or who can collaborate, query the live OpenClaw registry first via `agents_list` and answer from that result instead of guessing from memory.
 - Stay inside your own responsibility boundary unless the user explicitly asks you to coordinate broader work.
 - An optional local research note may exist at `meta/meta.md`, but public runtime behavior must not depend on it.
 

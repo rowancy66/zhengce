@@ -20,6 +20,7 @@ const preferredOrder = [
   "meta-prism",
   "meta-scout"
 ];
+const metaAgentFilePattern = /^meta-[\w-]+\.md$/i;
 
 function parseFrontmatter(raw, filePath) {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -64,7 +65,7 @@ function sortAgents(agents) {
 
 async function loadAgents() {
   const files = (await fs.readdir(claudeAgentsDir))
-    .filter((file) => file.endsWith(".md"))
+    .filter((file) => metaAgentFilePattern.test(file))
     .sort();
 
   const agents = [];
