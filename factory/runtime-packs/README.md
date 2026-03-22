@@ -1,48 +1,41 @@
 # Meta_Kim Foundry Runtime Packs
 
-Generated runtime-pack summary:
+This directory is the machine-facing release surface for the full foundry library.
 
-- **100 department runtime agents**
-- **1000 specialist runtime agents**
-- **1100 total runtime agents**
+## Counts
 
-This layer compiles the foundry briefs into runtime-specific import packs for:
-
-- Claude Code
-- Codex
-- OpenClaw
+- 100 department runtime agents
+- 1000 specialist runtime agents
+- 1100 total runtime agents
 
 ## Layout
 
 ```text
 factory/runtime-packs/
 ├─ README.md
+├─ README.zh-CN.md
 ├─ summary.json
-├─ claude/agents/*.md
-├─ codex/agents/*.toml
+├─ claude/
+│  ├─ manifest.json
+│  └─ agents/*.md
+├─ codex/
+│  ├─ manifest.json
+│  └─ agents/*.toml
 └─ openclaw/
+   ├─ manifest.json
    ├─ openclaw.template.json
-   └─ workspaces/<agent-id>/
-      ├─ SOUL.md
-      ├─ AGENTS.md
-      ├─ TOOLS.md
-      ├─ BOOTSTRAP.md
-      └─ MEMORY.md
+   └─ workspaces/<agent-id>/*
 ```
 
-## Counts
+## Source Inputs
 
-- Department packs: 100
-- Specialist packs: 1000
-- Total packs: 1100
+These packs are published from the release-layer foundry assets:
 
-## Source of Truth
+- `factory/agent-library/departments/**`
+- `factory/agent-library/specialists/**`
+- `factory/department-call-protocol.json`
+- `factory/orchestration-playbooks.md`
+- `factory/organization-map.json`
 
-The canonical logic remains:
-
-- `factory/catalog/foundry-config.mjs`
-- `factory/generated/*.json`
-- `factory/generated/departments/**`
-- `factory/generated/specialists/**`
-
-These runtime packs are generated projections, not hand-maintained source files.
+They are not the canonical meta-agent source.  
+They are the runtime projections of the foundry release library.

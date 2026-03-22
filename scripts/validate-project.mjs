@@ -42,6 +42,20 @@ async function exists(filePath) {
   }
 }
 
+async function countFiles(rootDir, extension) {
+  let count = 0;
+  const entries = await fs.readdir(rootDir, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = path.join(rootDir, entry.name);
+    if (entry.isDirectory()) {
+      count += await countFiles(entryPath, extension);
+    } else if (entry.isFile() && entry.name.endsWith(extension)) {
+      count += 1;
+    }
+  }
+  return count;
+}
+
 async function listCanonicalSkillReferences() {
   const entries = await fs.readdir(claudeSkillReferencesDir, {
     withFileTypes: true,
@@ -85,6 +99,7 @@ function parseFrontmatter(raw, filePath) {
 async function validateRequiredFiles() {
   const requiredFiles = [
     "README.md",
+    "README.zh-CN.md",
     "CLAUDE.md",
     "AGENTS.md",
     "LICENSE",
@@ -99,6 +114,20 @@ async function validateRequiredFiles() {
     "openclaw/skills/meta-theory.md",
     "openclaw/openclaw.template.json",
     "codex/config.toml.example",
+    "factory/README.md",
+    "factory/README.zh-CN.md",
+    "factory/industry-coverage-matrix.md",
+    "factory/flagship-20.md",
+    "factory/department-call-protocol.json",
+    "factory/orchestration-playbooks.md",
+    "factory/organization-map.json",
+    "factory/agent-library/agent-index.json",
+    "factory/flagship-complete/README.md",
+    "factory/flagship-complete/README.zh-CN.md",
+    "factory/flagship-complete/summary.json",
+    "factory/runtime-packs/README.md",
+    "factory/runtime-packs/README.zh-CN.md",
+    "factory/runtime-packs/summary.json",
     "scripts/mcp/meta-runtime-server.mjs",
     "scripts/eval-meta-agents.mjs",
     "scripts/prepare-openclaw-local.mjs"
@@ -404,6 +433,102 @@ async function validateMcpSelfTest() {
   assert(parsed.agentCount >= 1, "MCP self-test returned no agents.");
 }
 
+async function validateFactoryRelease() {
+  const legacyPaths = [
+    "factory/generated",
+    "factory/catalog",
+    "factory/flagship-batch-1",
+    "factory/flagship-batch-2",
+    "factory/flagship-batch-3",
+    "factory/flagship-batch-4",
+    "scripts/generate-industry-agents.mjs",
+    "scripts/compile-foundry-runtime-packs.mjs",
+    "scripts/build-flagship-batch-1.mjs",
+    "scripts/build-flagship-batch-2.mjs",
+    "scripts/build-flagship-batch-3.mjs",
+    "scripts/build-flagship-batch-4.mjs",
+    "scripts/build-flagship-complete.mjs"
+  ];
+
+  for (const relativePath of legacyPaths) {
+    assert(
+      !(await exists(path.join(repoRoot, relativePath))),
+      `Legacy release-build artifact should not exist in public repo: ${relativePath}`
+    );
+  }
+
+  const departmentCount = await countFiles(
+    path.join(repoRoot, "factory", "agent-library", "departments"),
+    ".md"
+  );
+  const specialistCount = await countFiles(
+    path.join(repoRoot, "factory", "agent-library", "specialists"),
+    ".md"
+  );
+  const flagshipCount = await countFiles(
+    path.join(repoRoot, "factory", "flagship-complete", "agents"),
+    ".md"
+  );
+  const flagshipIndexCount = await countFiles(
+    path.join(repoRoot, "factory", "flagship-20"),
+    ".md"
+  );
+  const runtimeClaudeCount = await countFiles(
+    path.join(repoRoot, "factory", "runtime-packs", "claude", "agents"),
+    ".md"
+  );
+  const runtimeCodexCount = await countFiles(
+    path.join(repoRoot, "factory", "runtime-packs", "codex", "agents"),
+    ".toml"
+  );
+  const runtimeOpenClawCount = (
+    await fs.readdir(path.join(repoRoot, "factory", "runtime-packs", "openclaw", "workspaces"), {
+      withFileTypes: true
+    })
+  ).filter((entry) => entry.isDirectory()).length;
+  const flagshipClaudeCount = await countFiles(
+    path.join(repoRoot, "factory", "flagship-complete", "runtime-packs", "claude", "agents"),
+    ".md"
+  );
+  const flagshipCodexCount = await countFiles(
+    path.join(repoRoot, "factory", "flagship-complete", "runtime-packs", "codex", "agents"),
+    ".toml"
+  );
+  const flagshipOpenClawCount = (
+    await fs.readdir(
+      path.join(repoRoot, "factory", "flagship-complete", "runtime-packs", "openclaw", "workspaces"),
+      { withFileTypes: true }
+    )
+  ).filter((entry) => entry.isDirectory()).length;
+
+  assert(departmentCount === 100, `Expected 100 department briefs, found ${departmentCount}.`);
+  assert(specialistCount === 1000, `Expected 1000 specialist briefs, found ${specialistCount}.`);
+  assert(flagshipCount === 20, `Expected 20 flagship agents, found ${flagshipCount}.`);
+  assert(flagshipIndexCount === 20, `Expected 20 flagship index files, found ${flagshipIndexCount}.`);
+  assert(runtimeClaudeCount === 1100, `Expected 1100 Claude runtime packs, found ${runtimeClaudeCount}.`);
+  assert(runtimeCodexCount === 1100, `Expected 1100 Codex runtime packs, found ${runtimeCodexCount}.`);
+  assert(runtimeOpenClawCount === 1100, `Expected 1100 OpenClaw workspaces, found ${runtimeOpenClawCount}.`);
+  assert(flagshipClaudeCount === 20, `Expected 20 flagship Claude packs, found ${flagshipClaudeCount}.`);
+  assert(flagshipCodexCount === 20, `Expected 20 flagship Codex packs, found ${flagshipCodexCount}.`);
+  assert(flagshipOpenClawCount === 20, `Expected 20 flagship OpenClaw workspaces, found ${flagshipOpenClawCount}.`);
+
+  const runtimeSummary = JSON.parse(
+    await fs.readFile(path.join(repoRoot, "factory", "runtime-packs", "summary.json"), "utf8")
+  );
+  assert(runtimeSummary.summary?.industries === 20, "runtime-packs/summary.json must report 20 industries.");
+  assert(runtimeSummary.summary?.departmentSeeds === 100, "runtime-packs/summary.json must report 100 department seeds.");
+  assert(runtimeSummary.summary?.specialistAgents === 1000, "runtime-packs/summary.json must report 1000 specialist agents.");
+  assert(runtimeSummary.summary?.totalAgents === 1100, "runtime-packs/summary.json must report 1100 total agents.");
+
+  const flagshipSummary = JSON.parse(
+    await fs.readFile(path.join(repoRoot, "factory", "flagship-complete", "summary.json"), "utf8")
+  );
+  assert(flagshipSummary.counts?.flagshipAgents === 20, "flagship-complete/summary.json must report 20 flagship agents.");
+  assert(flagshipSummary.counts?.claudeAgents === 20, "flagship-complete/summary.json must report 20 Claude flagship agents.");
+  assert(flagshipSummary.counts?.codexAgents === 20, "flagship-complete/summary.json must report 20 Codex flagship agents.");
+  assert(flagshipSummary.counts?.openclawWorkspaces === 20, "flagship-complete/summary.json must report 20 OpenClaw flagship workspaces.");
+}
+
 async function main() {
   await validateRequiredFiles();
   const agentIds = await validateClaudeAgents();
@@ -415,6 +540,7 @@ async function main() {
   await validateClaudeSettings();
   await validateMcpConfig();
   await validateMcpSelfTest();
+  await validateFactoryRelease();
   console.log(`Validation passed for ${agentIds.length} agents.`);
 }
 

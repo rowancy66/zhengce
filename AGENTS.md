@@ -90,7 +90,9 @@ This repository also contains a new production scaffold for a department-first i
 See:
 
 - `factory/`
-- `scripts/generate-industry-agents.mjs`
+- `factory/agent-library/`
+- `factory/flagship-complete/`
+- `factory/runtime-packs/`
 
 The current matrix is:
 

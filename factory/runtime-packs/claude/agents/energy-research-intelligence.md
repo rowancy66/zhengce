@@ -15,7 +15,7 @@ description: "Meta_Kim foundry department agent for Energy Research & Intelligen
 - Department seeds are the first routing stop. Use this agent before selecting specialists.
 - Default orchestrator: `meta-conductor`
 - Cross-department arbitration: `meta-warden`
-- Consult `factory/generated/department-call-protocol.json` before launching multi-department collaboration.
+- Consult `factory/department-call-protocol.json` before launching multi-department collaboration.
 - Preferred downstream departments: `strategy-office`, `product-delivery`, `risk-compliance`
 
 ## Source Brief

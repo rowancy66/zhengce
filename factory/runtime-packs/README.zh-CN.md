@@ -1,16 +1,12 @@
-# Meta_Kim Foundry 运行时包
+# Meta_Kim Foundry 运行时总包
 
-这是工厂层生成后的三端运行时总包。
+这个目录是完整 foundry 的 **机器导入层**。
 
-- **100 个部门级运行时 agent**
-- **1000 个 specialist 运行时 agent**
-- **1100 个运行时 agent 总数**
+## 数量
 
-它会把工厂层内容编译成：
-
-- Claude Code
-- Codex
-- OpenClaw
+- 100 个部门运行时 agent
+- 1000 个 specialist 运行时 agent
+- 总计 1100 个运行时 agent
 
 ## 目录结构
 
@@ -19,31 +15,27 @@ factory/runtime-packs/
 ├─ README.md
 ├─ README.zh-CN.md
 ├─ summary.json
-├─ claude/agents/*.md
-├─ codex/agents/*.toml
+├─ claude/
+│  ├─ manifest.json
+│  └─ agents/*.md
+├─ codex/
+│  ├─ manifest.json
+│  └─ agents/*.toml
 └─ openclaw/
+   ├─ manifest.json
    ├─ openclaw.template.json
-   └─ workspaces/<agent-id>/
-      ├─ SOUL.md
-      ├─ AGENTS.md
-      ├─ TOOLS.md
-      ├─ BOOTSTRAP.md
-      └─ MEMORY.md
+   └─ workspaces/<agent-id>/*
 ```
 
-## 数量
+## 它基于什么发布
 
-- 部门包：100
-- Specialist 包：1000
-- 总包：1100
+这些运行时包来自发布层的 foundry 资产：
 
-## 源头文件
+- `factory/agent-library/departments/**`
+- `factory/agent-library/specialists/**`
+- `factory/department-call-protocol.json`
+- `factory/orchestration-playbooks.md`
+- `factory/organization-map.json`
 
-真正的主源仍然是：
-
-- `factory/catalog/foundry-config.mjs`
-- `factory/generated/*.json`
-- `factory/generated/departments/**`
-- `factory/generated/specialists/**`
-
-这里的运行时包只是生成后的投影文件，不建议手工逐个维护。
+它们不是元 agent 主源。  
+它们是 foundry 发布库投影到三端后的最终机器包。

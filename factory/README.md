@@ -1,184 +1,129 @@
-# Meta_Kim Agent Foundry
+# Meta_Kim Foundry Release
 
-This directory is the scalable production layer for the next stage of Meta_Kim.
+This directory is the public release layer for Meta_Kim's industry expansion.
 
-It is designed to support a **department-first 100-agent industry catalog** without turning the repository into a pile of hand-written prompt fragments.
+It now exposes only the publishable outputs:
 
-## Purpose
+- a human-readable **agent library**
+- a polished **20-agent flagship bundle**
+- runtime-ready import packs for **Claude Code**, **Codex**, and **OpenClaw**
 
-The foundry exists to batch-produce structured **department seeds and specialist briefs** that can later be refined into runtime-specific agents through the Meta_Kim meta system.
+The old build-stage folders have been removed from the open-source surface.
 
-It separates:
-
-- canonical meta architecture
-- industry specialization
-- department structure
-- runtime projection
-
-That separation matters. The eight meta agents remain the governance core. The foundry is the expansion layer.
-
-The current matrix is:
-
-- 20 industries
-- 5 departments per industry
-- 100 department-level agents
-- 1000 generated specialist agents
-- organization and orchestration files for cross-department routing
-- runtime-pack compilation for Claude Code, Codex, and OpenClaw
-
-## Current Structure
+## What Is Here
 
 ```text
 factory/
-├─ catalog/
-│  └─ foundry-config.mjs
-├─ generated/
-│  ├─ README.md
-│  ├─ agent-index.json
-│  ├─ industry-coverage-matrix.md
-│  ├─ organization-map.json
-│  ├─ department-call-protocol.json
-│  ├─ orchestration-playbooks.md
-│  ├─ flagship-20.md
-│  ├─ flagship-20.json
-│  ├─ flagship-20/<industry>.md
+├─ agent-library/
 │  ├─ departments/<industry>/<department>.md
-│  └─ specialists/<industry>/<department>/<specialist>.md
+│  ├─ specialists/<industry>/<department>/<specialist>.md
+│  └─ agent-index.json
+├─ flagship-20/
+│  └─ <industry>.md
+├─ flagship-complete/
+│  ├─ README.md
+│  ├─ README.zh-CN.md
+│  ├─ summary.json
+│  ├─ agents/*.md
+│  └─ runtime-packs/<runtime>/*
 ├─ runtime-packs/
 │  ├─ README.md
+│  ├─ README.zh-CN.md
 │  ├─ summary.json
 │  ├─ claude/agents/*.md
 │  ├─ codex/agents/*.toml
 │  └─ openclaw/workspaces/<agent-id>/*
-├─ flagship-batch-1/
-│  ├─ README.md
-│  ├─ agents/*.md
-│  └─ runtime-packs/<runtime>/*
-├─ flagship-batch-2/
-│  ├─ README.md
-│  ├─ agents/*.md
-│  └─ runtime-packs/<runtime>/*
-├─ flagship-batch-3/
-│  ├─ README.md
-│  ├─ agents/*.md
-│  └─ runtime-packs/<runtime>/*
-├─ flagship-batch-4/
-│  ├─ README.md
-│  ├─ agents/*.md
-│  └─ runtime-packs/<runtime>/*
-├─ flagship-complete/
-│  ├─ README.md
-│  ├─ agents/*.md
-│  └─ runtime-packs/<runtime>/*
+├─ industry-coverage-matrix.md
+├─ flagship-20.md
+├─ flagship-20.json
+├─ organization-map.json
+├─ department-call-protocol.json
+├─ orchestration-playbooks.md
 └─ README.md
 ```
 
-## What the Generator Produces
+## Counts
 
-The generator now emits two layers:
+- 20 industries
+- 5 departments per industry
+- 100 department agents
+- 1000 specialist agents
+- 1100 total foundry agents
+- 20 hand-polished flagship agents
 
-- department seeds
-- specialist briefs
-- coverage and flagship indexes
-- runtime-specific import packs
+## How To Read It
 
-Each department seed contains:
+If you want the full human-readable library:
 
-- industry
-- department
-- mission
-- reference thinkers
-- mental models
-- tool targets
-- expected inputs
-- expected deliverables
-- ten named specialist slots
-- guardrails
+- start with `industry-coverage-matrix.md`
+- then inspect `agent-library/`
 
-Each specialist brief contains:
+If you only want the strongest curated layer:
 
-- parent department
-- specialist mandate
-- specialist-level deliverables
-- upstream/downstream handoff expectations
+- open `flagship-20.md`
+- then open `flagship-complete/agents/`
 
-These are not direct runtime prompts yet.
+If you want machine import surfaces:
 
-The generated briefs are the structured source that:
+- open `runtime-packs/`
 
-- `meta-warden` can route
-- `meta-genesis` can turn into personas
-- `meta-artisan` can tool-fit and operationalize
-- `meta-conductor` can organize into multi-department systems
-- `meta-sentinel` and `meta-prism` can gate risk and quality at department boundaries
+## Directory Roles
 
-The runtime-pack compiler then projects those briefs into:
+### `agent-library/`
 
-- Claude Code agent files
-- Codex custom-agent TOML files
-- OpenClaw workspace packs
+This is the complete human-readable release library.
 
-The flagship layer gives you a practical first polishing queue:
+It contains:
 
-- 1 flagship department seed per industry
-- 20 flagship agents total
-- each flagship file points to its runtime-pack paths
+- 100 department agent briefs
+- 1000 specialist agent briefs
+- the machine-readable `agent-index.json`
 
-And the first manual polishing cohort is now separated again as:
+### `flagship-20/` and `flagship-20.md`
 
-- `flagship-batch-1/`
-- 5 hand-polished flagship agents
-- dedicated runtime packs for Claude Code, Codex, and OpenClaw
+These identify the first 20 most important industry leaders inside the broader library.
 
-The second manual polishing cohort now exists too:
+They are the shortlist used to define the flagship layer.
 
-- `flagship-batch-2/`
-- 5 more hand-polished flagship agents
-- focused on stocks, investment, web3, creator media, and e-commerce
+### `flagship-complete/`
 
-The remaining flagship layers are now complete as well:
+This is the polished 20-agent bundle.
 
-- `flagship-batch-3/`
-- `flagship-batch-4/`
-- together they bring the hand-polished flagship total to **20 agents**
+Use it when:
 
-There is also a unified flagship bundle now:
+- you do not want to inspect all 1100 agents
+- you want the most curated examples first
+- you want the polished Claude/Codex/OpenClaw packs for the flagship layer
 
-- `flagship-complete/`
-- all 20 hand-polished flagship agents in one place
-- one combined Claude Code / Codex / OpenClaw import surface
+### `runtime-packs/`
 
-## Build
+This is the machine-facing distribution surface.
 
-```bash
-npm run build:agent-foundry
-```
+It contains the full 1100-agent runtime projection for:
 
-To rebuild only the unified 20-agent flagship bundle:
+- Claude Code
+- Codex
+- OpenClaw
 
-```bash
-npm run build:flagship-complete
-```
+### `organization-map.json`
 
-## Check
+Maps the industry -> department -> specialist structure.
 
-```bash
-npm run check:agent-foundry
-```
+### `department-call-protocol.json`
 
-To verify only the unified 20-agent flagship bundle:
+Defines default routing and handoff rules between departments.
 
-```bash
-npm run check:flagship-complete
-```
+### `orchestration-playbooks.md`
 
-## Design Principle
+Provides default cross-department operating flows.
 
-Do not scale by copying prompts.
+## What Changed
 
-Scale by:
+This public release intentionally removed the old build-stage layout:
 
-- keeping the governance core stable
-- formalizing industry blueprints
-- formalizing department templates
-- generating repeatable, reviewable department seeds and specialist briefs
+- no `generated/`
+- no `catalog/`
+- no `flagship-batch-*`
+
+Those were internal production layers.  
+This directory now shows only the release-ready outputs.

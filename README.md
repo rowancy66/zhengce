@@ -147,67 +147,34 @@ The default user-facing interpretation should be:
 
 ## Agent Foundry
 
-The next production layer in this repository is not “add 100 prompts by hand”.
+The next production layer in this repository is a **published industry library**, not a pile of temporary build folders.
 
-It is a scalable foundry for **department-first industry expansion**.
-
-The current scaffold is:
+The release now exposes:
 
 - **20 industries**
 - **5 departments per industry**
-- **100 department-level agents**
-- **1000 generated specialist agents**
-- **1 organization map plus orchestration playbooks**
+- **100 department agents**
+- **1000 specialist agents**
+- **1100 runtime import packs**
+- **20 hand-polished flagship agents**
 
-Industries currently include:
-
-- gaming
-- internet products
-- finance
-- AI
-- healthcare
-- stocks
-- investment
-- web3
-- creator media
-- e-commerce
-- education
-- legal
-- manufacturing
-- logistics
-- real estate
-- energy
-- automotive
-- travel and hospitality
-- biotech
-- public sector
-
-The foundry combines:
-
-- industry blueprints
-- department templates
-- expert thinking references
-- tool recommendations
-- a generator that emits structured **department seeds and specialist briefs**
-- a runtime-pack compiler that projects those briefs into Claude Code, Codex, and OpenClaw import assets
-
-See:
+The final public surfaces are:
 
 - [`factory/README.md`](factory/README.md)
 - [`factory/README.zh-CN.md`](factory/README.zh-CN.md)
-- [`scripts/generate-industry-agents.mjs`](scripts/generate-industry-agents.mjs)
-- [`factory/generated/industry-coverage-matrix.md`](factory/generated/industry-coverage-matrix.md)
-- [`factory/generated/flagship-20.md`](factory/generated/flagship-20.md)
+- [`factory/industry-coverage-matrix.md`](factory/industry-coverage-matrix.md)
+- [`factory/flagship-20.md`](factory/flagship-20.md)
+- [`factory/agent-library/`](factory/agent-library)
 - [`factory/flagship-complete/README.md`](factory/flagship-complete/README.md)
 - [`factory/flagship-complete/README.zh-CN.md`](factory/flagship-complete/README.zh-CN.md)
+- [`factory/runtime-packs/README.md`](factory/runtime-packs/README.md)
 - [`factory/runtime-packs/README.zh-CN.md`](factory/runtime-packs/README.zh-CN.md)
-- [`factory/flagship-batch-1/README.md`](factory/flagship-batch-1/README.md)
-- [`factory/flagship-batch-2/README.md`](factory/flagship-batch-2/README.md)
-- [`factory/flagship-batch-3/README.md`](factory/flagship-batch-3/README.md)
-- [`factory/flagship-batch-4/README.md`](factory/flagship-batch-4/README.md)
 
-Important: these generated department and specialist agents are a production layer, not the canonical runtime source.  
-They are intended to be refined by the meta system and then compiled into runtime-specific import packs under `factory/runtime-packs/`.
+Read it this way:
+
+- `factory/agent-library/` is the full human-readable 100/1000 library
+- `factory/runtime-packs/` is the full machine-facing 1100-agent import surface
+- `factory/flagship-complete/` is the curated 20-agent polished layer
 
 ## Public vs Private Research
 
@@ -225,8 +192,8 @@ Meta_Kim/
 ├─ .agents/        Codex project-level skill mirror
 ├─ codex/          Global Codex config example, not a second runtime
 ├─ openclaw/       OpenClaw workspaces, templates, and runtime mirrors
-├─ factory/        Department-agent foundry: catalog, generated seeds, 1000 specialists, protocol files, runtime packs
-├─ scripts/        Sync, validation, MCP, evaluation, and generation scripts
+├─ factory/        Published foundry release: agent library, flagship bundle, runtime packs
+├─ scripts/        Sync, validation, MCP, evaluation, and local runtime helper scripts
 ├─ shared-skills/  Shared skill mirrors across runtimes
 ├─ AGENTS.md       Codex and cross-runtime orientation
 ├─ CLAUDE.md       Claude Code orientation
@@ -290,59 +257,7 @@ Use this when:
 
 - you are about to publish
 - you changed runtime assets and want a full acceptance pass
-- you want one command that runs the full repo check and evaluation flow
-
-### `npm run build:agent-foundry`
-
-Use this when:
-
-- you want to regenerate the industry foundry
-- you changed industry blueprints, department templates, or specialist templates
-- you want fresh runtime-pack projections for Claude Code, Codex, and OpenClaw
-
-This command now does two things:
-
-- regenerates the department seeds and specialist briefs under `factory/generated/`
-- compiles runtime-ready import packs under `factory/runtime-packs/`
-- rebuilds all 20 hand-polished flagship agents under `factory/flagship-batch-{1..4}/`
-- also rebuilds the unified flagship bundle under `factory/flagship-complete/`
-
-### `npm run check:agent-foundry`
-
-Use this when:
-
-- you want to confirm the foundry outputs and runtime packs are in sync
-- you changed catalog logic and want a targeted check without rerunning the full runtime eval suite
-
-### `npm run build:flagship-batch-1`
-
-Use this when:
-
-- you only want to rebuild the first 5 hand-polished flagship agents
-- you are iterating on the flagship refinement layer without touching the full foundry matrix
-
-### `npm run build:flagship-batch-2`
-
-Use this when:
-
-- you want to rebuild the second 5 hand-polished flagship agents
-- you are iterating on the stocks / investment / web3 / creator media / e-commerce refinement layer
-
-### `npm run build:flagships`
-
-Use this when:
-
-- you want to rebuild all 20 hand-polished flagship agents
-- you want the full flagship layer refreshed without touching the broader foundry logic manually
-- you want one single directory that contains the entire polished flagship layer
-
-### `npm run build:flagship-complete`
-
-Use this when:
-
-- you only care about the unified 20-agent polished bundle
-- you do not want to inspect the four flagship batches separately
-- you want the simplest single import surface for the flagship layer
+- you want one command that runs the repo check plus runtime evaluation
 
 ## Simplest Way to Start
 
@@ -367,17 +282,12 @@ If you also want to run OpenClaw locally:
 npm run prepare:openclaw-local
 ```
 
-If you want to build the 100 department-agent foundry output and runtime packs:
+If you want to inspect the finished industry layer:
 
-```bash
-npm run build:agent-foundry
-```
-
-If you only want to verify the foundry layer is still in sync:
-
-```bash
-npm run check:agent-foundry
-```
+- read `factory/industry-coverage-matrix.md`
+- inspect `factory/agent-library/`
+- inspect `factory/flagship-complete/`
+- inspect `factory/runtime-packs/`
 
 ## Paper and Method Basis
 

@@ -40,8 +40,8 @@ Generated from `.claude/agents/meta-conductor.md`. Edit the Claude source file f
 
 当任务来自行业 agent foundry，而不是 8 个元 agent 的核心治理层时，Conductor 额外遵守以下协议：
 
-1. 先读 `factory/generated/organization-map.json`，确认行业、部门 seed、specialist 隶属关系
-2. 再读 `factory/generated/department-call-protocol.json`，确认默认 handoff 链和 playbook 顺序
+1. 先读 `factory/organization-map.json`，确认行业、部门 seed、specialist 隶属关系
+2. 再读 `factory/department-call-protocol.json`，确认默认 handoff 链和 playbook 顺序
 3. 默认先派发 **部门 seed**，不要直接把问题碎到 specialist
 4. specialist 只处理窄切片工作，结果必须回流到父级部门 seed
 5. 一旦出现跨部门冲突、顺序冲突、职责争抢，立即升级给 `meta-warden`

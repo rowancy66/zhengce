@@ -1,107 +1,129 @@
-# Meta_Kim Agent Foundry 中文说明
+# Meta_Kim Foundry 发布版说明
 
-这个目录就是你后面要扩成多部门、上千 agent 的生产工厂。
+这个目录现在是 **开源发布层**，不是中间生产车间。
 
-它不是主元架构本体，而是 **批量生产行业 agent 的扩展层**。
+也就是说，你现在在这里看到的，都是对外保留的最终结果：
 
-可以把它简单理解成两层：
+- 人能直接看的 **agent 库**
+- 精修过的 **20 个旗舰 agent 总包**
+- 给 Claude Code / Codex / OpenClaw 直接吃的 **运行时包**
 
-- 工厂层：先批量生成 `100` 个部门 agent 和 `1000` 个 specialist
-- 旗舰层：再从里面挑出最关键的 `20` 个做手工强化
+旧的中间构建目录已经从发布面删除了。
 
-## 你最该先看的目录
+## 现在有什么
 
-- `generated/`
-  这里是全量工厂产物。
-- `runtime-packs/`
-  这里是全量工厂产物对应的 Claude Code / Codex / OpenClaw 包。
-- `flagship-complete/`
-  这里是 20 个手工强化旗舰 agent 的统一总包。
-- `catalog/`
-  这里是生成规则和配置源。
+```text
+factory/
+├─ agent-library/
+│  ├─ departments/<行业>/<部门>.md
+│  ├─ specialists/<行业>/<部门>/<specialist>.md
+│  └─ agent-index.json
+├─ flagship-20/
+│  └─ <行业>.md
+├─ flagship-complete/
+│  ├─ README.md
+│  ├─ README.zh-CN.md
+│  ├─ summary.json
+│  ├─ agents/*.md
+│  └─ runtime-packs/<runtime>/*
+├─ runtime-packs/
+│  ├─ README.md
+│  ├─ README.zh-CN.md
+│  ├─ summary.json
+│  ├─ claude/agents/*.md
+│  ├─ codex/agents/*.toml
+│  └─ openclaw/workspaces/<agent-id>/*
+├─ industry-coverage-matrix.md
+├─ flagship-20.md
+├─ flagship-20.json
+├─ organization-map.json
+├─ department-call-protocol.json
+├─ orchestration-playbooks.md
+└─ README.zh-CN.md
+```
 
-## 目录作用
+## 当前规模
 
-### `catalog/`
+- 20 个行业
+- 每个行业 5 个部门
+- 100 个部门 agent
+- 1000 个 specialist agent
+- 总计 1100 个 foundry agent
+- 20 个手工强化旗舰 agent
 
-定义怎么生成行业 agent。
+## 你最该怎么看
 
-- `foundry-config.mjs`：20 个行业、5 个部门模板、specialist 模板的总配置
-- `flagship-batch-*.mjs`：4 批旗舰 agent 的手工强化配置
-- `flagship-complete.mjs`：把 20 个旗舰 agent 合成一个统一总包
+如果你要看完整的人类可读产物：
 
-### `generated/`
+- 先看 `industry-coverage-matrix.md`
+- 再看 `agent-library/`
 
-这里是全量工厂产物。
+如果你只想先看最强的一层：
 
-- `departments/`：100 个部门级 agent
-- `specialists/`：1000 个 specialist
-- `industry-coverage-matrix.md`：全行业覆盖总表
-- `flagship-20.md`：20 个旗舰名单
-- `organization-map.json`：组织结构映射
-- `department-call-protocol.json`：部门调用协议
+- 先看 `flagship-20.md`
+- 再看 `flagship-complete/agents/`
 
-### `runtime-packs/`
+如果你要看机器导入面：
 
-这里是把全量工厂层产物编译成三端运行时包后的结果。
+- 直接看 `runtime-packs/`
 
-- `claude/agents/`
-- `codex/agents/`
-- `openclaw/workspaces/`
+## 每个目录是干嘛的
 
-这一层是全量 `1100` 个 agent 的运行时投影。
+### `agent-library/`
 
-### `flagship-batch-1/` 到 `flagship-batch-4/`
+这是完整的人类可读 agent 库。
 
-这是分批打磨用的目录。
+里面包含：
 
-每个目录里有 `5` 个手工强化旗舰 agent。
+- 100 个部门 agent brief
+- 1000 个 specialist brief
+- 对应的机器索引 `agent-index.json`
+
+### `flagship-20/` 和 `flagship-20.md`
+
+这是从大盘里挑出来的第一批 20 个最关键行业主力。
+
+它们决定了旗舰层的范围。
 
 ### `flagship-complete/`
 
-这是你现在最值得直接看的目录。
+这是已经打磨好的 20 个旗舰总包。
 
-它把 `20` 个手工强化旗舰 agent 全部放在一个地方，并且附带三端运行时包。
+适合这些情况：
 
-如果你不想在 4 个 batch 之间来回找，直接看这里。
+- 你不想先看 1100 个
+- 你想先看最成熟的一层
+- 你要直接拿 20 个旗舰的三端包去测试
 
-## 现在到底已经做完了什么
+### `runtime-packs/`
 
-目前工厂层已经有：
+这是机器导入用的最终分发层。
 
-- `20` 个行业
-- `5` 个部门模板
-- `100` 个部门级 agent
-- `1000` 个 specialist
-- `20` 个手工强化旗舰 agent
-- 三端运行时包
+里面放的是完整的 1100-agent 三端投影：
 
-## 常用命令
+- Claude Code
+- Codex
+- OpenClaw
 
-### `npm run build:agent-foundry`
+### `organization-map.json`
 
-重建整个工厂层：
+定义行业 -> 部门 -> specialist 的组织结构。
 
-- 100 个部门 agent
-- 1000 个 specialist
-- 全量运行时包
-- 20 个旗舰
+### `department-call-protocol.json`
 
-### `npm run build:flagships`
+定义部门之间默认怎么调用、怎么 handoff。
 
-只重建 20 个旗舰层。
+### `orchestration-playbooks.md`
 
-### `npm run build:flagship-complete`
+定义跨部门协作时的默认编排流程。
 
-只重建统一的 20 旗舰总包。
+## 这次收口删掉了什么
 
-### `npm run check:agent-foundry`
+这个发布版已经不再暴露旧的中间层：
 
-检查工厂层和运行时包有没有漂移。
+- 不再有 `generated/`
+- 不再有 `catalog/`
+- 不再有 `flagship-batch-*`
 
-## 你现在最推荐的阅读顺序
-
-1. `generated/industry-coverage-matrix.md`
-2. `generated/flagship-20.md`
-3. `flagship-complete/README.zh-CN.md`
-4. `flagship-complete/agents/`
+这些属于内部生产过程层。  
+现在保留下来的，都是适合开源展示和交付的最终层。

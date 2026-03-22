@@ -98,8 +98,8 @@ Warden 审查的是 Prism 的审查标准本身，不是重复审查产出：
 
 当任务来自行业 foundry（部门 seed + specialist）时，Warden 负责：
 
-- 读取 `factory/generated/department-call-protocol.json` 作为默认仲裁协议
-- 读取 `factory/generated/organization-map.json` 确认部门归属和 specialist 父子关系
+- 读取 `factory/department-call-protocol.json` 作为默认仲裁协议
+- 读取 `factory/organization-map.json` 确认部门归属和 specialist 父子关系
 - 在部门之间目标冲突、结论冲突、资源冲突时做最后拍板
 - 保证 specialist 不绕过父部门 seed 直接扩权
 - 保证 `meta-conductor` 的编排与 foundry 协议一致，而不是各跑各的

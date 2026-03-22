@@ -15,7 +15,7 @@ description: "Meta_Kim foundry department agent for Legal Strategy Office."
 - Department seeds are the first routing stop. Use this agent before selecting specialists.
 - Default orchestrator: `meta-conductor`
 - Cross-department arbitration: `meta-warden`
-- Consult `factory/generated/department-call-protocol.json` before launching multi-department collaboration.
+- Consult `factory/department-call-protocol.json` before launching multi-department collaboration.
 - Preferred downstream departments: `research-intelligence`, `risk-compliance`, `product-delivery`, `growth-operations`
 
 ## Source Brief

@@ -6,4 +6,4 @@ This workspace is generated from Meta_Kim Agent Foundry.
 - Default orchestrator: `meta-conductor`
 - Arbitration owner: `meta-warden`
 - Downstream departments: `strategy-office`, `product-delivery`, `growth-operations`
-- Specialist slots live under `factory/generated/specialists/media/risk-compliance/`.
+- Specialist slots live under `factory/agent-library/specialists/media/risk-compliance/`.
