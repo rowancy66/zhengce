@@ -201,14 +201,17 @@ Meta is an architectural unit here, not decoration.
 
 Meta_Kim follows one chain:
 
-**Meta -> Organizational Mirroring -> Rhythm Orchestration -> Intent Amplification**
+```mermaid
+flowchart LR
+    A[Meta] --> B[Organizational Mirroring]
+    B --> C[Rhythm Orchestration]
+    C --> D[Intent Amplification]
+```
 
-Each part solves a different problem:
-
-- `Meta (how to split)`: break work into smallest governable units
-- `Organizational Mirroring (how to structure)`: define who owns what, who doesn't touch what
-- `Rhythm Orchestration (how to dispatch)`: control when things happen, what can run in parallel, when to pause
-- `Intent Amplification (how to complete)`: turn "I want X" into a complete, executable specification
+- `Meta`: how to split
+- `Organizational Mirroring`: how to structure
+- `Rhythm Orchestration`: how to dispatch
+- `Intent Amplification`: how to complete
 
 Remove any one of these and the method is incomplete.
 
@@ -218,12 +221,12 @@ You don't need to know the internals. But if you're curious:
 
 ```mermaid
 flowchart TD
-    A[“You describe what you need”] --> B[“System clarifies scope<br/>asks follow-ups if vague”]
-    B --> C[“Search existing capabilities<br/>find agents/skills first”]
-    C --> D[“Route to specialists<br/>create new agents only when needed”]
-    D --> E[“Agents execute<br/>clear ownership boundaries”]
-    E --> F[“Review output<br/>quality, security, architecture”]
-    F --> G[“Capture patterns<br/>reuse next time”]
+    A[You describe what you need] --> B[System clarifies scope]
+    B --> C[Search existing capabilities]
+    C --> D[Route to specialists]
+    D --> E[Agents execute]
+    E --> F[Review output]
+    F --> G[Capture patterns]
 ```
 
 The default front door is `meta-warden`. The other seven meta agents are backstage specialists, not the public menu.
