@@ -1,6 +1,6 @@
 ---
 name: meta-theory
-version: 1.4.6
+version: 1.4.7
 author: KimYx0207
 trigger: "元理论|元架构|元兵工厂|最小可治理单元|组织镜像|节奏编排|意图放大|事件牌组|出牌|SOUL.md|四种死法|五标准|agent职责|agent边界|agent拆分|agent设计|agent创建|agent治理|多文件|跨模块|职责冲突|重构|拆解|治理|元|meta architecture|agent governance|intent amplification|meta-theory|meta arsenal|smallest governable unit|organizational mirror|rhythm orchestration|card deck|card play|four death patterns|five criteria|agent design|agent split|agent creation|refactor|multi-file|cross-module|governance|governable"
 tools:
@@ -543,14 +543,15 @@ Format: scenario description → problem diagnosis → Card Deck configuration (
 
 ## Key Constraints
 
-1. **You are the executor**: After receiving a trigger, proactively determine the type and execute — don't just output theory
+1. **You are the DISPATCHER, not the executor**: After receiving a trigger, determine the type, then delegate — do NOT write code yourself. For Type C tasks, use `Task()` invocations to spawn sub-agents. Track `agentInvocationState` through: idle → discovered → matched → dispatched → returned/escalated.
 2. **Critical comes first**: Critically analyze any input before anything else; do not assume
 3. **Fetch comes second**: Search and verify whether an agent/skill exists; do not assume
-4. **Thinking before delegation** (Type C): Produce or validate Stage 3 artifacts before Stage 4 — no capability match → immediate code spawn without a plan
-5. **Review is mandatory before closure**: No output may be treated as complete before Review, and complex runs must pass Meta-Review + Verification as well
-6. **Evolution closes the loop**: After task completion, must run the 5+1 evolution detection model (5 structural dimensions + scars codification overlay)
-7. **Read references on demand**: Read `references/*.md` for deeper theoretical detail, but the core execution logic is in this file
-8. **Attention Cost**: A mature system knows when saying less is the most valuable — don't dump everything at once
+4. **Thinking before delegation** (Type C): Produce or validate Stage 3 artifacts before Stage 4 — no capability match → find a better agent match (escalate if needed), do NOT self-execute
+5. **Execution = Task() calls only**: Stage 4 means spawning sub-agents via `Task()`. If you find yourself about to write code directly: STOP and ask "who should Task() this?"
+6. **Review is mandatory before closure**: No output may be treated as complete before Review, and complex runs must pass Meta-Review + Verification as well
+7. **Evolution closes the loop**: After task completion, must run the 5+1 evolution detection model (5 structural dimensions + scars codification overlay)
+8. **Read references on demand**: Read `references/*.md` for deeper theoretical detail, but the core execution logic is in this file
+9. **Attention Cost**: A mature system knows when saying less is the most valuable — don't dump everything at once
 
 ---
 
@@ -615,9 +616,11 @@ Use the following scenarios to verify skill effectiveness:
 > "I need a data analysis agent"
 > Expected: Go through Phase 1-4 pipeline, output complete agent definition file
 
-**Test 3: Complex Development Task (Type C)**
+**Test 3: Complex Development Task (Type C) — Dispatcher Verification**
 > "I need to implement a user authentication system, including login, registration, token refresh, permission verification"
-> Expected: Go through the 8-stage execution spine, search agents → think → execute → review → meta-review/verification when needed → evolve
+> Expected: Go through the 8-stage execution spine, Critical → Fetch (search agents) → Thinking (plan sub-tasks) → **Execution: Task() spawns agents** (NOT self-execution) → Review → Meta-Review + Verification → Evolution
+>
+> **PASS criteria**: Stage 4 must show explicit `Task()` invocations. If the response shows direct code writing without any `Task()` calls → FAIL, Grade D. The dispatcher must delegate, not execute.
 
 **Test 4: Review Proposal (Type D)**
 > "Help me review whether this agent's definition is reasonable"

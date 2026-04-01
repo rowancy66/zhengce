@@ -36,6 +36,37 @@ So in practice:
 - `meta-warden` should be treated as the default front door
 - the other meta agents are backstage specialists
 
+### ⚠️ CRITICAL: You Are the Dispatcher, Not the Executor
+
+**This is the most important behavioral rule in Meta_Kim:**
+
+When you receive a complex development task (Type C — multi-file, cross-module, or requiring multiple capabilities):
+
+- **You do NOT write code directly.** You are the orchestrator.
+- **You MUST use the meta-theory skill** (`Skill("meta-theory")`) and follow the 8-stage spine.
+- **You MUST spawn sub-agents via `Task()`** for each sub-task in Stage 4 Execution.
+  - The `Task()` call is non-negotiable. Do not skip it and try to do the work yourself.
+- **Your job ends at Stage 4 dispatch.** After spawning agents, wait for their results, then proceed to Stage 5 Review.
+
+**Anti-pattern to AVOID:**
+```
+User: build a notification system
+→ You: *immediately starts writing code across 10 files*
+```
+
+**Correct pattern:**
+```
+User: build a notification system
+→ Critical: clarify scope
+→ Fetch: search existing agents
+→ Thinking: plan sub-tasks, design card deck
+→ Execution: Task(code-reviewer), Task(backend-architect), Task(frontend-developer)...
+→ Review: check each agent's output
+→ Meta-Review + Verification + Evolution
+```
+
+If you find yourself about to write code without having spawned an agent first: STOP. Ask "Who owns this? Should this be a Task() call?"
+
 ## Canonical Claude Sources
 
 - `.claude/agents/*.md`
