@@ -84,7 +84,7 @@ Meta_Kim 的核心思路是：先做 **意图放大**，再做执行。
 ## 作者与支持
 
 <div align="center">
-  <img src="images/二维码基础款.png" alt="联系方式" width="560"/>
+  <img src="images/%E4%BA%8C%E7%BB%B4%E7%A0%81%E5%9F%BA%E7%A1%80%E6%AC%BE.png" alt="联系方式" width="560"/>
   <p>
     GitHub <a href="https://github.com/KimYx0207">KimYx0207</a> |
     𝕏 <a href="https://x.com/KimYx0207">@KimYx0207</a> |
@@ -101,12 +101,12 @@ Meta_Kim 的核心思路是：先做 **意图放大**，再做执行。
   <table align="center">
     <tr>
       <td align="center">
-        <img src="images/微信.jpg" alt="微信收款码" width="220"/>
+        <img src="images/%E5%BE%AE%E4%BF%A1.jpg" alt="微信收款码" width="220"/>
         <br/>
         <strong>微信支付</strong>
       </td>
       <td align="center">
-        <img src="images/支付宝.jpg" alt="支付宝收款码" width="220"/>
+        <img src="images/%E6%94%AF%E4%BB%98%E5%AE%9D.jpg" alt="支付宝收款码" width="220"/>
         <br/>
         <strong>支付宝</strong>
       </td>
@@ -674,7 +674,7 @@ Codex 和 OpenClaw 使用各自原生机制实现等效行为。
 ### 一键安装（推荐）
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/KimYx0207/Meta_Kim.git
 cd Meta_Kim
 node setup.mjs
 ```
@@ -696,7 +696,7 @@ node setup.mjs
 #### 1. 克隆并安装依赖
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/KimYx0207/Meta_Kim.git
 cd Meta_Kim
 npm install
 ```
