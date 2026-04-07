@@ -21,10 +21,12 @@ const PROJECT_DIR = resolve(import.meta.dirname || '.')
 
 const PROXY = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || ''
 
+const findskillPackSubdir = platform() === 'win32' ? 'windows' : 'original'
+
 const SKILLS = [
   // 项目默认依赖
   { name: 'agent-teams-playbook', repo: `${SKILL_OWNER}/agent-teams-playbook` },
-  { name: 'findskill', repo: `${SKILL_OWNER}/findskill` },
+  { name: 'findskill', repo: `${SKILL_OWNER}/findskill`, subdir: findskillPackSubdir },
   { name: 'hookprompt', repo: `${SKILL_OWNER}/HookPrompt` },
   // 社区高星项目
   { name: 'superpowers', repo: 'obra/superpowers' },

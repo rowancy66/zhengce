@@ -90,7 +90,13 @@ echo ""
 
 echo "--- 项目默认依赖 ---"
 install_skill "agent-teams-playbook" "$PROJECT_SKILL_OWNER/agent-teams-playbook"
-install_skill "findskill"            "$PROJECT_SKILL_OWNER/findskill"
+# findskill: SKILL.md is under original/ (Unix) or windows/ (Git Bash / native Windows); not at repo root.
+FINDSKILL_SUBDIR="original"
+uname_s="$(uname -s 2>/dev/null || echo unknown)"
+case "$uname_s" in
+  MINGW*|MSYS*|CYGWIN*) FINDSKILL_SUBDIR="windows" ;;
+esac
+install_skill_from_subdir "findskill" "$PROJECT_SKILL_OWNER/findskill" "$FINDSKILL_SUBDIR"
 install_skill "hookprompt"           "$PROJECT_SKILL_OWNER/HookPrompt"
 
 echo ""

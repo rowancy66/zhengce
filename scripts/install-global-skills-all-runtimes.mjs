@@ -37,9 +37,11 @@ const skipPlugins =
  * a repo’s .claude/commands are not merged by cloning into ~/.claude/skills/<id> — use `claude plugin install`
  * for plugin bundles (e.g. superpowers@claude-plugins-official).
  */
+const FINDSKILL_SUBDIR = os.platform() === "win32" ? "windows" : "original";
+
 const SKILL_REPOS = [
   { id: "agent-teams-playbook", repo: "https://github.com/KimYx0207/agent-teams-playbook.git" },
-  { id: "findskill", repo: "https://github.com/KimYx0207/findskill.git" },
+  { id: "findskill", repo: "https://github.com/KimYx0207/findskill.git", subdir: FINDSKILL_SUBDIR },
   { id: "hookprompt", repo: "https://github.com/KimYx0207/HookPrompt.git" },
   { id: "superpowers", repo: "https://github.com/obra/superpowers.git" },
   { id: "everything-claude-code", repo: "https://github.com/affaan-m/everything-claude-code.git" },
