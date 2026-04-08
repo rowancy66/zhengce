@@ -873,12 +873,54 @@ Meta_Kim ships 8 hook command scripts in `.claude/settings.json` (the `Stop` eve
 
 Codex and OpenClaw use their own native mechanisms for equivalent behavior.
 
+## Code Knowledge Graph (graphify)
+
+Meta_Kim can leverage [graphify](https://github.com/safishamsi/graphify) (`pip install graphifyy`) to generate compressed code knowledge graphs for **target projects** — not Meta_Kim itself. This provides up to **71x token compression** via subgraph extraction instead of raw file reading.
+
+### How It Works
+
+1. **graphify** generates `graphify-out/graph.json` in the target project root (NetworkX node-link JSON with nodes, edges, and confidence scores)
+2. Meta_Kim's Fetch stage auto-detects the graph — no manual intervention needed
+3. All dispatched agents receive graph context via the `subagent-context.mjs` hook
+4. For complex projects (>50 graph nodes), a **project-level conductor** can be auto-created via the Type B pipeline
+
+### Auto-Trigger Conditions
+
+Graph context is used automatically when **all** conditions are met:
+- Source files > 20 (excluding `node_modules/`, `.git/`, `dist/`)
+- Python 3.10+ installed
+- graphify installed (`pip install graphifyy`)
+- Current project is NOT Meta_Kim itself
+
+### Installation
+
+```bash
+# Via setup.mjs (interactive, auto-detects Python)
+node setup.mjs
+
+# Via install-deps.sh
+npm run deps:install
+
+# Manual
+pip install graphifyy && graphify claude install
+
+# Check status
+npm run graphify:check
+```
+
+### Quality Gate
+
+- AMBIGUOUS nodes > 30% → graph marked low-quality, agents use direct `Read` as primary
+- Total nodes < 10 → graph too sparse, fall back to `Glob`/`Grep`
+- God nodes (high in-degree) → flagged as serial bottlenecks for `meta-conductor`
+
 ## Quick Start (Clone to Working in 5 Minutes)
 
 ### Prerequisites
 
 - **Node.js** v18+ (for sync, validate, and OpenClaw scripts)
 - **Git** (to clone)
+- **Python** 3.10+ (optional, for graphify code knowledge graph)
 - **Claude Code CLI** (optional, only needed for `eval:agents`)
 - **Codex CLI** (optional, only needed for `eval:agents`)
 - **OpenClaw CLI** (optional, only needed for `npm run prepare:openclaw-local`)
@@ -1147,6 +1189,9 @@ The system routes each request through the matching governance stage.
 | `npm run deps:install:all-runtimes`    | Windows or when you use Codex/OpenClaw globally too | clones the same 9 skill repos into `~/.claude/skills`, `~/.codex/skills`, `~/.openclaw/skills`; runs `claude plugin install superpowers@claude-plugins-official` if `claude` is on PATH |
 | `npm run deps:update:all-runtimes`     | refresh all three skill trees                    | same as above with `--update`                                         |
 | `npm run deps:install:claude-plugins`  | only official CC plugin bundles                | runs `claude plugin install …` only (no git clones)                  |
+| `npm run graphify:check`              | check graphify availability                     | verifies Python 3.10+ and graphify CLI                               |
+| `npm run graphify:install`            | install graphify                                | `pip install graphifyy` + register Claude skill                      |
+| `npm run graphify:update`             | update project graph                            | incremental `graphify --update` on target project                    |
 | `npm run discover:global`              | first setup and after adding global capabilities | rebuilds the global capability index                                  |
 | `npm run probe:clis`                   | when CLI availability is unclear                 | probes Claude / Codex / OpenClaw CLIs                                 |
 | `npm run test:mcp`                     | after changing MCP-related code                  | self-tests `meta-runtime-server`                                    |

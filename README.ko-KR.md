@@ -383,6 +383,28 @@ npm run validate
 | `npm run doctor:governance` | 계약·훅·미러·샘플 validate:run 좁은 헬스체크 |
 | `npm run verify:all` | 릴리스 전 넓은 스택(전역 meta-theory 동기 상태에도 의존) |
 
+## 코드 지식 그래프 (graphify)
+
+[graphify](https://github.com/safishamsi/graphify) (`pip install graphifyy`)를 사용하여 **대상 프로젝트**(Meta_Kim 자체가 아님)의 코드 지식 그래프를 생성합니다. 서브그래프 추출로 최대 **71배 토큰 압축**을 실현합니다.
+
+- Fetch 단계에서 `graphify-out/graph.json`을 자동 감지
+- 모든 파견 에이전트에 그래프 컨텍스트 자동 주입
+- 소스 파일 >20, Python 3.10+, graphify 설치됨 → 자동 활성화
+- 복잡한 프로젝트(노드 >50) → Type B 파이프라인으로 프로젝트 수준 Conductor 자동 생성
+
+```bash
+# 설치
+pip install graphifyy && graphify claude install
+
+# 상태 확인
+npm run graphify:check
+
+# 대상 프로젝트 그래프 업데이트
+npm run graphify:update
+```
+
+자세한 내용: [README.md Code Knowledge Graph 섹션](README.md#code-knowledge-graph-graphify)
+
 ## 저장소 구조(요약)
 
 ```text

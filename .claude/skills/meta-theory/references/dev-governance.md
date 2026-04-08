@@ -378,6 +378,25 @@ Extract each agent's "Own / Do Not Touch" boundaries
 Score match: does "Own" cover the needed capability?
 ```
 
+**Step 0.5 — Project Graph Context** (auto-detection, runs before Step 1):
+```
+CHECK: Does graphify-out/graph.json exist in the target project root?
+  IF YES →
+    - Verify freshness: compare graph.json mtime against git log last commit
+    - If stale → run `graphify --update` (incremental, SHA256 cache)
+    - Load graph metadata: node count, edge count, confidence distribution
+    - Quality gate: if AMBIGUOUS nodes > 30% OR total nodes < 10 → mark as low-quality, agents use direct Read as primary
+    - Record graphContext in Fetch output for downstream stages
+  IF NO →
+    - Check auto-generation conditions (all must be true):
+        a) Source files > 20 (excluding node_modules/ .git/ dist/)
+        b) Python 3.10+ available (python --version)
+        c) graphify installed (graphify --version)
+        d) Current project is NOT Meta_Kim itself
+    - If all conditions met → run `graphify` and wait for completion
+    - If conditions not met → proceed without graph, no error
+```
+
 **Step 2 — Capability index search** (if no perfect local match):
 ```
 IF .claude/capability-index/global-capabilities.json is missing OR stale for the current machine
@@ -463,6 +482,15 @@ This is a **preference**, not a hard rule — if the lightweight agent escalates
 ```json
 {
   "capabilityNeeded": "code quality review",
+  "graphContext": {
+    "available": false,
+    "suggestedForProjectsWithMoreThan": 20,
+    "path": null,
+    "nodeCount": null,
+    "edgeCount": null,
+    "confidenceDistribution": null,
+    "quality": null
+  },
   "searchTrail": [
     "local-agents",
     "global-capability-index",
@@ -713,6 +741,7 @@ Agent(
   Task: [sub-task description]
   Constraints: [boundaries from Stage 3]
   Deliverable: [expected output format]
+  Graph context: [IF graphContext.available, include compressed subgraph relevant to this task's fileScope — node topology, dependency edges, confidence notes for AMBIGUOUS nodes. Graph context tells WHERE things are; for HOW they work, always Read the actual source files.]
   """
 )
 ```

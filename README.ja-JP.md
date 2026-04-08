@@ -381,6 +381,28 @@ npm run validate
 | `npm run doctor:governance` | 契約・フック・鏡像・サンプル validate:run の狭いヘルスチェック |
 | `npm run verify:all` | 本番前の広いスタック（グローバル meta-theory 同期状況にも依存） |
 
+## コードナレッジグラフ（graphify）
+
+[graphify](https://github.com/safishamsi/graphify)（`pip install graphifyy`）を使って**対象プロジェクト**（Meta_Kim 自身ではない）のコードナレッジグラフを生成。サブグラフ抽出により最大 **71 倍のトークン圧縮**を実現します。
+
+- Fetch 段階で `graphify-out/graph.json` を自動検出
+- 全派生エージェントにグラフコンテキストを自動注入
+- ソースファイル >20、Python 3.10+、graphify インストール済みの場合に自動有効化
+- 複雑なプロジェクト（ノード >50）では Type B パイプラインでプロジェクトレベル Conductor を自動生成
+
+```bash
+# インストール
+pip install graphifyy && graphify claude install
+
+# 状態確認
+npm run graphify:check
+
+# 対象プロジェクトのグラフ更新
+npm run graphify:update
+```
+
+詳細: [README.md の Code Knowledge Graph セクション](README.md#code-knowledge-graph-graphify)
+
 ## リポジトリ構造（要約）
 
 ```text

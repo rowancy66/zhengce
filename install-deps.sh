@@ -114,6 +114,26 @@ echo "--- Anthropic 官方 ---"
 install_skill_from_subdir "skill-creator" "anthropics/skills" "skills/skill-creator"
 
 echo ""
+echo "--- Python 工具（可选）---"
+if command -v python3 &> /dev/null && python3 -c "import sys; exit(0 if sys.version_info >= (3,10) else 1)" 2>/dev/null; then
+  if command -v graphify &> /dev/null; then
+    echo "  [SKIP] graphify — already installed ($(graphify --version 2>/dev/null || echo 'unknown'))"
+  else
+    echo "  [INSTALL] graphify (code knowledge graph, 71x token compression)..."
+    pip3 install graphifyy 2>/dev/null || pip install graphifyy 2>/dev/null
+    if command -v graphify &> /dev/null; then
+      echo "  [INSTALL] Registering graphify Claude skill..."
+      graphify claude install 2>/dev/null && echo "  [OK] graphify installed and Claude skill registered" || echo "  [WARN] graphify Claude skill registration failed"
+    else
+      echo "  [WARN] graphify pip install failed"
+    fi
+  fi
+else
+  echo "  Python 3.10+ not found. Skipping graphify."
+  echo "  Install Python 3.10+ and run: pip install graphifyy && graphify claude install"
+fi
+
+echo ""
 echo "========================================="
 echo "  Done! 9 meta-skills installed to $SKILLS_DIR"
 echo "========================================="

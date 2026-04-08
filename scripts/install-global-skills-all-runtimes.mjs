@@ -28,7 +28,8 @@ const updateMode = process.argv.includes("--update");
 const dryRun = process.argv.includes("--dry-run");
 const pluginsOnly = process.argv.includes("--plugins-only");
 const skipPlugins =
-  process.argv.includes("--skip-plugins") || process.argv.includes("--no-plugins");
+  process.argv.includes("--skip-plugins") ||
+  process.argv.includes("--no-plugins");
 
 /**
  * Keep in sync with install-deps.sh / setup.mjs.
@@ -41,11 +42,21 @@ const skipPlugins =
 const FINDSKILL_SUBDIR = os.platform() === "win32" ? "windows" : "original";
 
 const SKILL_REPOS = [
-  { id: "agent-teams-playbook", repo: "https://github.com/KimYx0207/agent-teams-playbook.git" },
-  { id: "findskill", repo: "https://github.com/KimYx0207/findskill.git", subdir: FINDSKILL_SUBDIR },
+  {
+    id: "agent-teams-playbook",
+    repo: "https://github.com/KimYx0207/agent-teams-playbook.git",
+  },
+  {
+    id: "findskill",
+    repo: "https://github.com/KimYx0207/findskill.git",
+    subdir: FINDSKILL_SUBDIR,
+  },
   { id: "hookprompt", repo: "https://github.com/KimYx0207/HookPrompt.git" },
   { id: "superpowers", repo: "https://github.com/obra/superpowers.git" },
-  { id: "everything-claude-code", repo: "https://github.com/affaan-m/everything-claude-code.git" },
+  {
+    id: "everything-claude-code",
+    repo: "https://github.com/affaan-m/everything-claude-code.git",
+  },
   {
     id: "planning-with-files",
     repo: "https://github.com/OthmanAdi/planning-with-files.git",
@@ -72,7 +83,10 @@ function resolveHomes() {
   return {
     claude: runtimeDir(["META_KIM_CLAUDE_HOME", "CLAUDE_HOME"], ".claude"),
     codex: runtimeDir(["META_KIM_CODEX_HOME", "CODEX_HOME"], ".codex"),
-    openclaw: runtimeDir(["META_KIM_OPENCLAW_HOME", "OPENCLAW_HOME"], ".openclaw"),
+    openclaw: runtimeDir(
+      ["META_KIM_OPENCLAW_HOME", "OPENCLAW_HOME"],
+      ".openclaw",
+    ),
   };
 }
 
@@ -140,7 +154,9 @@ async function installGitSkillFromSubdir(targetDir, repoUrl, subdirPath) {
   }
 
   if (dryRun) {
-    console.log(`[dry-run] sparse install ${repoUrl} (${subdirPath}) -> ${targetDir}`);
+    console.log(
+      `[dry-run] sparse install ${repoUrl} (${subdirPath}) -> ${targetDir}`,
+    );
     return;
   }
 
@@ -150,7 +166,15 @@ async function installGitSkillFromSubdir(targetDir, repoUrl, subdirPath) {
 
   const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "meta-kim-skill-"));
   try {
-    runGit(["clone", "--depth", "1", "--filter=blob:none", "--sparse", repoUrl, tmp]);
+    runGit([
+      "clone",
+      "--depth",
+      "1",
+      "--filter=blob:none",
+      "--sparse",
+      repoUrl,
+      tmp,
+    ]);
     runGit(["sparse-checkout", "set", subdirPath], { cwd: tmp });
     const src = path.join(tmp, ...subdirPath.split("/").filter(Boolean));
     if (!(await pathExists(src))) {
@@ -158,7 +182,9 @@ async function installGitSkillFromSubdir(targetDir, repoUrl, subdirPath) {
     }
     await fs.mkdir(path.dirname(targetDir), { recursive: true });
     await fs.cp(src, targetDir, { recursive: true, force: true });
-    console.log(`[OK] ${path.basename(targetDir)} -> ${targetDir} (from ${subdirPath})`);
+    console.log(
+      `[OK] ${path.basename(targetDir)} -> ${targetDir} (from ${subdirPath})`,
+    );
   } finally {
     await fs.rm(tmp, { recursive: true, force: true });
   }
@@ -186,8 +212,16 @@ async function installSkillCreator(targetBaseSkills) {
   const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "meta-kim-skill-"));
   try {
     runGit(
-      ["clone", "--depth", "1", "--filter=blob:none", "--sparse", "https://github.com/anthropics/skills.git", tmp],
-      { cwd: undefined }
+      [
+        "clone",
+        "--depth",
+        "1",
+        "--filter=blob:none",
+        "--sparse",
+        "https://github.com/anthropics/skills.git",
+        tmp,
+      ],
+      { cwd: undefined },
     );
     runGit(["sparse-checkout", "set", "skills/skill-creator"], { cwd: tmp });
     await fs.mkdir(targetBaseSkills, { recursive: true });
@@ -227,7 +261,7 @@ function installClaudePlugins() {
   const r = spawnSync("claude", ["--version"], { encoding: "utf8" });
   if (r.status !== 0) {
     console.warn(
-      "[WARN] `claude` CLI not found on PATH — skip plugin install. Install Claude Code CLI, then re-run with --plugins-only."
+      "[WARN] `claude` CLI not found on PATH — skip plugin install. Install Claude Code CLI, then re-run with --plugins-only.",
     );
     return;
   }
@@ -252,16 +286,87 @@ async function main() {
   const homes = resolveHomes();
 
   if (!pluginsOnly) {
-    await installAllSkillsForRuntime("Claude Code skills", path.join(homes.claude, "skills"));
-    await installAllSkillsForRuntime("Codex skills", path.join(homes.codex, "skills"));
-    await installAllSkillsForRuntime("OpenClaw skills", path.join(homes.openclaw, "skills"));
+    await installAllSkillsForRuntime(
+      "Claude Code skills",
+      path.join(homes.claude, "skills"),
+    );
+    await installAllSkillsForRuntime(
+      "Codex skills",
+      path.join(homes.codex, "skills"),
+    );
+    await installAllSkillsForRuntime(
+      "OpenClaw skills",
+      path.join(homes.openclaw, "skills"),
+    );
   }
 
   installClaudePlugins();
 
+  // Optional: graphify (code knowledge graph)
+  if (!pluginsOnly) {
+    console.log("\n--- Python Tools (optional) ---");
+    const pyCmd = ["python3", "python"].find((cmd) => {
+      try {
+        const r = spawnSync(cmd, ["--version"], {
+          encoding: "utf8",
+          shell: os.platform() === "win32",
+        });
+        if (r.status === 0) {
+          const m = (r.stdout || "").match(/Python (\d+)\.(\d+)/);
+          return m && (+m[1] > 3 || (+m[1] === 3 && +m[2] >= 10));
+        }
+      } catch {
+        /* not found */
+      }
+      return false;
+    });
+
+    if (!pyCmd) {
+      console.log("Python 3.10+ not found. Skipping graphify.");
+      console.log(
+        "Install Python 3.10+ and run: pip install graphifyy && graphify claude install",
+      );
+    } else {
+      const gfCheck = spawnSync("graphify", ["--version"], {
+        encoding: "utf8",
+        shell: os.platform() === "win32",
+      });
+      if (gfCheck.status === 0) {
+        console.log(
+          `[SKIP] graphify already installed (${(gfCheck.stdout || "").trim()})`,
+        );
+      } else {
+        console.log(
+          "[INSTALL] graphify (code knowledge graph, 71x token compression)...",
+        );
+        const pipCmd = pyCmd === "python3" ? "pip3" : "pip";
+        const pipResult = spawnSync(pipCmd, ["install", "graphifyy"], {
+          stdio: "inherit",
+          shell: os.platform() === "win32",
+        });
+        if (pipResult.status === 0) {
+          console.log("[INSTALL] Registering graphify Claude skill...");
+          const skillResult = spawnSync("graphify", ["claude", "install"], {
+            stdio: "inherit",
+            shell: os.platform() === "win32",
+          });
+          if (skillResult.status === 0) {
+            console.log("[OK] graphify installed and Claude skill registered");
+          } else {
+            console.warn(
+              "[WARN] graphify Claude skill registration failed (non-blocking)",
+            );
+          }
+        } else {
+          console.warn("[WARN] graphify pip install failed (non-blocking)");
+        }
+      }
+    }
+  }
+
   console.log("\nDone.");
   console.log(
-    "Note: Codex/OpenClaw have no Claude Code plugin format — same repos are mirrored as skill directories only."
+    "Note: Codex/OpenClaw have no Claude Code plugin format — same repos are mirrored as skill directories only.",
   );
   console.log(`Meta_Kim repo (canonical agents/skills): ${repoRoot}`);
 }

@@ -185,6 +185,21 @@ const I18N = {
     syncOk: "All runtime sync targets verified",
     syncMissing: (p) => `Missing: ${p}`,
     syncPartial: (label, got, need) => `${label}: got ${got}, need ${need}`,
+    stepPythonTools: "Optional Python Tools",
+    pythonNotFound: "Python 3.10+ not found — skipping graphify",
+    pythonHint:
+      "Install Python 3.10+ and run: pip install graphifyy && graphify claude install",
+    graphifyCheck: (v) => `graphify ${v}`,
+    graphifyInstalling:
+      "Installing graphify (code knowledge graph, 71x token compression)...",
+    graphifyInstalled: "graphify installed and Claude skill registered",
+    graphifyInstallFailed: "graphify installation failed (non-blocking)",
+    graphifyAlreadyInstalled: (v) => `graphify ${v} — already installed`,
+    graphifySkillRegistering: "Registering graphify Claude skill...",
+    graphifySkillRegistered:
+      "graphify Claude skill registered to ~/.claude/skills/graphify/",
+    graphifySkillFailed:
+      "graphify Claude skill registration failed (non-blocking)",
     updateHeading: "Update Mode",
     updateNpm: "Reinstalling npm dependencies...",
     updateSkills: "Updating all skills...",
@@ -308,6 +323,19 @@ const I18N = {
     syncOk: "所有运行时同步目标验证通过",
     syncMissing: (p) => `缺失：${p}`,
     syncPartial: (label, got, need) => `${label}：实际 ${got}，需要 ${need}`,
+    stepPythonTools: "可选 Python 工具",
+    pythonNotFound: "未检测到 Python 3.10+ — 跳过 graphify",
+    pythonHint:
+      "安装 Python 3.10+ 后运行：pip install graphifyy && graphify claude install",
+    graphifyCheck: (v) => `graphify ${v}`,
+    graphifyInstalling: "正在安装 graphify（代码知识图谱，71x token 压缩）...",
+    graphifyInstalled: "graphify 已安装，Claude 技能已注册",
+    graphifyInstallFailed: "graphify 安装失败（不影响其他功能）",
+    graphifyAlreadyInstalled: (v) => `graphify ${v} — 已安装`,
+    graphifySkillRegistering: "正在注册 graphify Claude 技能...",
+    graphifySkillRegistered:
+      "graphify Claude 技能已注册到 ~/.claude/skills/graphify/",
+    graphifySkillFailed: "graphify Claude 技能注册失败（不影响其他功能）",
     updateHeading: "更新模式",
     updateNpm: "正在重新安装 npm 依赖...",
     updateSkills: "正在更新所有技能...",
@@ -437,6 +465,20 @@ const I18N = {
     syncOk: "すべてのランタイム同期ターゲット検証済み",
     syncMissing: (p) => `不足：${p}`,
     syncPartial: (label, got, need) => `${label}：実際 ${got}、必要 ${need}`,
+    stepPythonTools: "オプション Python ツール",
+    pythonNotFound: "Python 3.10+ が見つかりません — graphify をスキップ",
+    pythonHint:
+      "Python 3.10+ をインストール後：pip install graphifyy && graphify claude install",
+    graphifyCheck: (v) => `graphify ${v}`,
+    graphifyInstalling:
+      "graphify をインストール中（コードナレッジグラフ、71x トークン圧縮）...",
+    graphifyInstalled: "graphify インストール完了、Claude スキル登録済み",
+    graphifyInstallFailed: "graphify インストール失敗（非ブロッキング）",
+    graphifyAlreadyInstalled: (v) => `graphify ${v} — インストール済み`,
+    graphifySkillRegistering: "graphify Claude スキルを登録中...",
+    graphifySkillRegistered:
+      "graphify Claude スキルを ~/.claude/skills/graphify/ に登録",
+    graphifySkillFailed: "graphify Claude スキル登録失敗（非ブロッキング）",
     updateHeading: "アップデートモード",
     updateNpm: "npm依存関係を再インストール中...",
     updateSkills: "すべてのスキルを更新中...",
@@ -563,6 +605,19 @@ const I18N = {
     syncOk: "모든 런타임 동기화 대상 확인 완료",
     syncMissing: (p) => `누락: ${p}`,
     syncPartial: (label, got, need) => `${label}: 실제 ${got}, 필요 ${need}`,
+    stepPythonTools: "선택적 Python 도구",
+    pythonNotFound: "Python 3.10+ 없음 — graphify 건너뜀",
+    pythonHint:
+      "Python 3.10+ 설치 후: pip install graphifyy && graphify claude install",
+    graphifyCheck: (v) => `graphify ${v}`,
+    graphifyInstalling: "graphify 설치 중 (코드 지식 그래프, 71x 토큰 압축)...",
+    graphifyInstalled: "graphify 설치 완료, Claude 스킬 등록됨",
+    graphifyInstallFailed: "graphify 설치 실패 (비차단)",
+    graphifyAlreadyInstalled: (v) => `graphify ${v} — 이미 설치됨`,
+    graphifySkillRegistering: "graphify Claude 스킬 등록 중...",
+    graphifySkillRegistered:
+      "graphify Claude 스킬이 ~/.claude/skills/graphify/에 등록됨",
+    graphifySkillFailed: "graphify Claude 스킬 등록 실패 (비차단)",
     updateHeading: "업데이트 모드",
     updateNpm: "npm 의존성 재설치 중...",
     updateSkills: "모든 스킬 업데이트 중...",
@@ -786,9 +841,7 @@ const OPENCLAW_WORKSPACE_MD = [
 ];
 
 function openclawWorkspaceMdComplete(wsPath) {
-  return OPENCLAW_WORKSPACE_MD.every((name) =>
-    existsSync(join(wsPath, name)),
-  );
+  return OPENCLAW_WORKSPACE_MD.every((name) => existsSync(join(wsPath, name)));
 }
 
 function checkSync(runtimes) {
@@ -889,7 +942,10 @@ function checkSync(runtimes) {
       const completeAgents = META_AGENTS.filter((id) =>
         openclawWorkspaceMdComplete(join(ocWorkspaces, id)),
       ).length;
-      if (wsCount === META_AGENTS.length && completeAgents === META_AGENTS.length) {
+      if (
+        wsCount === META_AGENTS.length &&
+        completeAgents === META_AGENTS.length
+      ) {
         ok(t.syncOpenclawWorkspaces(wsCount));
       } else {
         warn(
@@ -1220,6 +1276,61 @@ async function installAllSkills() {
   return failed === 0;
 }
 
+// ── Step 4.5: Optional Python tools (graphify) ─────────
+
+function checkPython310() {
+  const cmds = ["python3", "python"];
+  for (const cmd of cmds) {
+    const r = run(`${cmd} --version`);
+    if (r) {
+      const m = r.match(/Python (\d+)\.(\d+)/);
+      if (m && (+m[1] > 3 || (+m[1] === 3 && +m[2] >= 10))) return cmd;
+    }
+  }
+  return null;
+}
+
+async function installPythonTools() {
+  heading(t.stepPythonTools);
+  const pyCmd = checkPython310();
+  if (!pyCmd) {
+    warn(t.pythonNotFound);
+    info(t.pythonHint);
+    return;
+  }
+
+  // Check if graphify already installed
+  const gfCheck = run("graphify --version");
+  if (gfCheck) {
+    ok(t.graphifyAlreadyInstalled(gfCheck.trim()));
+    return;
+  }
+
+  // Install graphify
+  info(t.graphifyInstalling);
+  const pipCmd = pyCmd === "python3" ? "pip3" : "pip";
+  const installResult = spawnSync(pipCmd, ["install", "graphifyy"], {
+    stdio: "inherit",
+    shell: isWin,
+  });
+  if (installResult.status !== 0) {
+    warn(t.graphifyInstallFailed);
+    return;
+  }
+
+  // Register Claude skill
+  info(t.graphifySkillRegistering);
+  const skillResult = spawnSync("graphify", ["claude", "install"], {
+    stdio: "inherit",
+    shell: isWin,
+  });
+  if (skillResult.status === 0) {
+    ok(t.graphifySkillRegistered);
+  } else {
+    warn(t.graphifySkillFailed);
+  }
+}
+
 // ── Step 5: Validate + next steps ───────────────────────
 
 async function validate() {
@@ -1404,10 +1515,9 @@ function bannerLogo() {
   console.log(`
 ${frame}  ┏${bar}┓
   ┃${blank}┃
-${art.map(
-    (l) =>
-      `  ┃${C.bold}${C.white}${leftPad(l)}${C.reset}${frame}┃`,
-  ).join("\n")}
+${art
+  .map((l) => `  ┃${C.bold}${C.white}${leftPad(l)}${C.reset}${frame}┃`)
+  .join("\n")}
   ┃${blank}┃
   ┃${C.green}${center(`Setup ${packageVersion}`)}${C.reset}${frame}┃
   ┃${blank}┃
@@ -1491,6 +1601,7 @@ async function runInstall() {
   const runtimes = await detectRuntimes();
   await autoConfigure(runtimes);
   if (hasGlobalDir) await installAllSkills();
+  await installPythonTools();
   checkDependencies();
   checkSync(runtimes);
   await validate();
@@ -1514,6 +1625,7 @@ async function runUpdate() {
   heading(t.updateSkills);
   mkdirSync(SKILLS_DIR, { recursive: true });
   for (const skill of SKILLS) installSkill(skill);
+  await installPythonTools();
 
   const doSync = await askYesNo(t.updateSyncRuntimes, true);
   if (doSync) {

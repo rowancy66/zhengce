@@ -237,6 +237,47 @@ Files that should usually remain derived or runtime-specific:
 - **`SKILL.md` / `meta-theory.md` and all `references/*.md`**: English, model-facing (kept in sync across runtimes via `sync:runtimes`).
 - **`docs/meta.md`**: optional long-form narrative; may include Chinese historical sections. Not mirrored into the portable skill; cite it when depth matters.
 
+## Code Knowledge Graph Support (graphify)
+
+Meta_Kim can leverage [graphify](https://github.com/safishamsi/graphify) (`pip install graphifyy`) to generate compressed code knowledge graphs for **target projects** (not Meta_Kim itself). This provides up to 71x token compression via subgraph extraction instead of raw file reading.
+
+### How It Works
+
+1. **graphify** generates `graphify-out/graph.json` in the target project root (NetworkX node-link JSON with nodes, edges, and confidence scores)
+2. Meta_Kim's Fetch stage (Step 0.5) auto-detects the graph — no manual intervention needed
+3. All dispatched agents receive graph context via `subagent-context.mjs` hook
+4. For complex projects (>50 graph nodes), a **project-level conductor** can be auto-created via Type B pipeline
+
+### Auto-Trigger Conditions
+
+Graph context is used automatically when ALL conditions are met:
+- Source files > 20 (excluding node_modules/, .git/, dist/)
+- Python 3.10+ installed
+- graphify installed (`pip install graphifyy`)
+- Current project is NOT Meta_Kim itself
+
+### Installation
+
+```bash
+# Via setup.mjs (interactive, auto-detects Python)
+node setup.mjs
+
+# Via install-deps.sh
+bash install-deps.sh
+
+# Manual
+pip install graphifyy && graphify claude install
+
+# Check status
+npm run graphify:check
+```
+
+### Quality Gate
+
+- AMBIGUOUS nodes > 30% → graph marked low-quality, agents use direct Read as primary
+- Total nodes < 10 → graph too sparse, fall back to Glob/Grep
+- God nodes (high in-degree) → flagged as serial bottlenecks for Conductor
+
 ## Required Maintenance Loop
 
 After changing canonical prompts, skills, hooks, or runtime-facing contracts:
