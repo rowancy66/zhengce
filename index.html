@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>政策雷达 | 西海岸新区企业政策分析</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="top-nav" aria-label="主导航">
+        <a href="#overview">政策雷达</a>
+        <a href="#opportunities">补贴机会</a>
+        <a href="#library">政策库</a>
+        <a href="#sources">数据源</a>
+      </nav>
+      <section class="hero" id="overview">
+        <p class="eyebrow">青岛西海岸新区民营企业政策监测</p>
+        <h1>每天追踪政策，优先发现补贴和项目机会</h1>
+        <p class="hero-copy">
+          面向建设施工、物业、安保、商业管理、资产管理、外贸、商砼等业务，自动汇总国家、山东省、青岛市和西海岸新区政策。
+        </p>
+      </section>
+    </header>
+
+    <main>
+      <section class="summary-grid" aria-label="政策统计">
+        <article>
+          <span class="metric" id="metric-total">0</span>
+          <p>政策总数</p>
+        </article>
+        <article>
+          <span class="metric" id="metric-priority">0</span>
+          <p>A级重点跟进</p>
+        </article>
+        <article>
+          <span class="metric" id="metric-subsidy">0</span>
+          <p>疑似补贴机会</p>
+        </article>
+        <article>
+          <span class="metric" id="metric-updated">-</span>
+          <p>最近更新</p>
+        </article>
+      </section>
+
+      <section class="section" id="opportunities">
+        <div class="section-heading">
+          <p class="eyebrow">Priority</p>
+          <h2>重点跟进</h2>
+        </div>
+        <div class="policy-list" id="priority-list"></div>
+      </section>
+
+      <section class="section" id="library">
+        <div class="section-heading">
+          <p class="eyebrow">Library</p>
+          <h2>政策库</h2>
+        </div>
+        <div class="filters" aria-label="政策筛选">
+          <input id="search-input" type="search" placeholder="搜索政策标题、业务板块或关键词" />
+          <select id="region-filter">
+            <option value="">全部地区</option>
+          </select>
+          <select id="business-filter">
+            <option value="">全部业务</option>
+          </select>
+          <select id="level-filter">
+            <option value="">全部等级</option>
+            <option value="A">A级重点跟进</option>
+            <option value="B">B级持续关注</option>
+            <option value="C">C级低优先级</option>
+            <option value="D">D级暂不适用</option>
+          </select>
+        </div>
+        <div class="policy-list" id="policy-list"></div>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="section-heading">
+          <p class="eyebrow">Sources</p>
+          <h2>新增政策网站</h2>
+        </div>
+        <p class="source-note">
+          后续任务会接入 GitHub Issue 表单用于新增政策来源；当前版本只展示静态页面和初始数据。
+        </p>
+      </section>
+    </main>
+
+    <dialog id="policy-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" id="dialog-close" aria-label="关闭">关闭</button>
+      <div id="dialog-content"></div>
+    </dialog>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>
