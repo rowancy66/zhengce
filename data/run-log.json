@@ -1,16 +1,24 @@
 {
-  "lastRunAt": "2026-04-13T05:21:22.355Z",
+  "lastRunAt": "2026-04-13T23:58:30.374Z",
   "status": "completed_with_errors",
-  "fetchedCount": 3,
-  "analyzedCount": 3,
-  "errorCount": 2,
+  "fetchedCount": 1,
+  "analyzedCount": 1,
+  "errorCount": 4,
   "errors": [
     {
       "source": "https://www.mohurd.gov.cn/gongkai/zhengce/index.html",
-      "message": "抓取失败 https://www.mohurd.gov.cn/gongkai/zhengce/index.html: HTTP 404"
+      "message": "fetch failed"
     },
     {
       "source": "https://www.shandong.gov.cn/col/col267492/",
+      "message": "fetch failed"
+    },
+    {
+      "source": "http://www.qingdao.gov.cn/zwgk/zdgk/fgwj/",
+      "message": "fetch failed"
+    },
+    {
+      "source": "https://www.xihaian.gov.cn/zwgk/",
       "message": "fetch failed"
     }
   ],
