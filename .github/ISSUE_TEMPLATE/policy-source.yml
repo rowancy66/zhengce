@@ -1,0 +1,46 @@
+name: 新增政策来源
+description: 提交一个政策网站或单条政策链接，供每日任务自动抓取分析
+title: "新增政策来源："
+labels: ["policy-source"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: 政策网址
+      description: 填写政府网站栏目地址或单条政策原文地址
+      placeholder: "https://example.gov.cn/policy"
+    validations:
+      required: true
+  - type: dropdown
+    id: region
+    attributes:
+      label: 来源地区
+      options:
+        - 国家
+        - 山东省
+        - 青岛市
+        - 西海岸新区
+        - 其他
+    validations:
+      required: true
+  - type: checkboxes
+    id: business
+    attributes:
+      label: 相关业务
+      options:
+        - label: 建设施工
+        - label: 物业服务
+        - label: 安保服务
+        - label: 商业管理
+        - label: 资产管理
+        - label: 外贸
+        - label: 商砼
+        - label: 城市更新
+        - label: 社区嵌入式服务
+        - label: 土地
+        - label: 公共服务
+  - type: textarea
+    id: note
+    attributes:
+      label: 备注
+      description: 说明这个来源为什么值得关注
