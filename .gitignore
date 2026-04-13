@@ -29,6 +29,7 @@ memory/governance-reviews/
 # ========== Backup / Temporary ==========
 backup/
 .backup/
+.DS_Store
 
 
 # ========== Private / Draft Docs ==========
