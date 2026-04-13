@@ -18,6 +18,7 @@ shared-skills/
 .meta-kim/
 .meta-kim/state/
 .meta-kim/local.overrides.json
+.superpowers/
 
 # ========== Runtime Directories ==========
 runtimes/
@@ -40,4 +41,3 @@ docs/runtime-coverage-audit.md
 # ========== Images (moved to docs/images/) ==========
 # Only ignore root-level images/, not docs/images/
 /images/
-
