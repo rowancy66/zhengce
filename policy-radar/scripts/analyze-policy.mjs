@@ -139,7 +139,7 @@ function regionMatches(policyRegion, companyRegions) {
     return true;
   }
 
-  return companyRegions.includes(policyRegion);
+  return companyRegions.some((companyRegion) => companyRegion.includes(policyRegion) || policyRegion.includes(companyRegion));
 }
 
 export function analyzeWithRules(policy, companyProfile = {}) {

@@ -41,6 +41,22 @@ test("analyzeWithRules marks unrelated expired policy as C level", () => {
   assert.equal(result.hasSubsidySignal, false);
 });
 
+test("analyzeWithRules treats West Coast New Area alias as company region fit", () => {
+  const policy = normalizePolicy({
+    title: "青岛西海岸新区城市更新试点项目申报通知",
+    text: "支持城市更新、建设施工和公共服务项目申报试点。",
+    sourceName: "青岛西海岸新区",
+    sourceUrl: "https://example.com/west-coast",
+    publishDate: "2026-04-13",
+    region: "西海岸新区"
+  });
+
+  const result = analyzeWithRules(policy, companyProfile);
+
+  assert.equal(result.matchLevel, "A");
+  assert.ok(result.businessTags.includes("城市更新"));
+});
+
 test("createPolicyId uses publishDate sourceName and text to avoid collisions", () => {
   const base = {
     title: "",
