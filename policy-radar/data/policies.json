@@ -1,0 +1,19 @@
+[
+  {
+    "id": "sample-001",
+    "title": "示例政策：青岛市支持民营企业高质量发展政策",
+    "sourceName": "示例数据",
+    "sourceUrl": "https://example.com/policy",
+    "publishDate": "2026-04-13",
+    "region": "青岛市",
+    "businessTags": ["民营经济", "公共服务"],
+    "matchLevel": "B",
+    "hasSubsidySignal": true,
+    "summary": "这是一条用于验证网站展示效果的示例政策。",
+    "benefits": ["可能涉及民营企业支持", "需要关注后续申报指南"],
+    "fitAnalysis": "公司位于青岛西海岸新区，若政策后续发布具体申报细则，建议继续关注。",
+    "nextActions": ["等待正式申报指南", "准备营业执照、纳税和资质材料"],
+    "riskNotes": ["示例数据不代表真实政策结论"],
+    "oneLineConclusion": "这条示例政策用于测试页面展示，真实上线后会由自动任务替换。"
+  }
+]

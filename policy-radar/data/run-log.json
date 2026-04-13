@@ -1,0 +1,7 @@
+{
+  "lastRunAt": "2026-04-13T00:00:00.000Z",
+  "status": "initialized",
+  "fetchedCount": 0,
+  "analyzedCount": 0,
+  "message": "初始数据已创建，等待 GitHub Actions 自动更新。"
+}

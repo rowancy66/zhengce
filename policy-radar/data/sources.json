@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mohurd",
+    "name": "住房和城乡建设部",
+    "level": "国家",
+    "url": "https://www.mohurd.gov.cn/gongkai/zhengce/index.html",
+    "tags": ["建设施工", "房地产", "城市更新", "装配式建筑"]
+  },
+  {
+    "id": "mofcom",
+    "name": "商务部",
+    "level": "国家",
+    "url": "https://www.mofcom.gov.cn/zcfb/",
+    "tags": ["外贸", "商业管理"]
+  },
+  {
+    "id": "shandong-gov",
+    "name": "山东省人民政府",
+    "level": "山东省",
+    "url": "https://www.shandong.gov.cn/col/col267492/",
+    "tags": ["民营经济", "公共服务", "土地", "外贸"]
+  },
+  {
+    "id": "qingdao-gov",
+    "name": "青岛市人民政府",
+    "level": "青岛市",
+    "url": "http://www.qingdao.gov.cn/zwgk/zdgk/fgwj/",
+    "tags": ["青岛市", "建设施工", "外贸", "公共服务"]
+  },
+  {
+    "id": "west-coast",
+    "name": "青岛西海岸新区",
+    "level": "西海岸新区",
+    "url": "https://www.xihaian.gov.cn/zwgk/",
+    "tags": ["西海岸新区", "建设施工", "物业服务", "城市更新"]
+  }
+]
