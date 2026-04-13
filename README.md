@@ -34,6 +34,14 @@ Meta_Kim is a **governance layer for AI coding assistants**: one unified discipl
 - Discipline: one department, one primary deliverable, one closed handoff chain
 - The long-term source of truth mostly lives in `canonical/` and `config/contracts/workflow-contract.json`
 
+## Policy Radar Static Site
+
+This repository also contains an isolated static site experiment under `policy-radar/`.
+It tracks government policy sources for a Qingdao West Coast New Area private enterprise,
+refreshes data through GitHub Actions, and can use DeepSeek for policy benefit analysis.
+
+See `policy-radar/README.md` for setup and deployment instructions.
+
 ## What This Project Is
 
 Meta_Kim is not mainly about making AI write more code. It is about reducing the failure modes that show up when AI touches complex work:
