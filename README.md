@@ -52,7 +52,7 @@ http://localhost:8765/
 
 ## 每天自动更新
 
-`.github/workflows/policy-radar-update.yml` 会每天北京时间 07:15 自动运行。
+`.github/workflows/policy-radar-update.yml` 会每天北京时间 08:00 自动运行。
 
 也可以在 GitHub Actions 页面手动点击 `Run workflow` 立即更新。
 

@@ -2,13 +2,16 @@
   color-scheme: light;
   --bg: #f6f7f9;
   --surface: #ffffff;
+  --surface-soft: #f8faf8;
   --ink: #17202a;
   --muted: #5d6978;
   --line: #d8dde5;
   --accent: #0f766e;
   --accent-strong: #0b5f59;
+  --accent-soft: #dff3ed;
   --warn: #b45309;
   --danger: #b91c1c;
+  --info: #2563eb;
   --radius: 8px;
 }
 
@@ -130,6 +133,13 @@ main {
   margin-bottom: 16px;
 }
 
+.section-copy {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 8px 0 0;
+  max-width: 760px;
+}
+
 .section-heading h2 {
   font-size: 28px;
   margin-bottom: 0;
@@ -139,7 +149,12 @@ main {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 12px;
-  margin-bottom: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 30px rgba(23, 32, 42, 0.05);
+  margin-bottom: 18px;
+  padding: 14px;
 }
 
 input,
@@ -153,23 +168,61 @@ button {
 
 input,
 select {
-  background: var(--surface);
+  background: var(--surface-soft);
   color: var(--ink);
   padding: 0 12px;
 }
 
+input:focus,
+select:focus,
+button:focus {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
 .policy-list {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .policy-card {
-  padding: 18px;
+  border-left: 6px solid var(--line);
+  overflow: hidden;
+  padding: 0;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.policy-card:hover {
+  box-shadow: 0 18px 42px rgba(23, 32, 42, 0.1);
+  transform: translateY(-1px);
+}
+
+.policy-card-a {
+  border-left-color: var(--danger);
+}
+
+.policy-card-b {
+  border-left-color: var(--warn);
+}
+
+.policy-card-c {
+  border-left-color: var(--info);
+}
+
+.policy-card-d {
+  border-left-color: var(--muted);
+}
+
+.policy-card-body {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
 }
 
 .policy-card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 21px;
+  line-height: 1.45;
+  margin-bottom: 0;
 }
 
 .policy-meta,
@@ -180,9 +233,40 @@ select {
 }
 
 .policy-meta {
+  gap: 10px;
+}
+
+.meta-item {
+  align-items: center;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 12px;
+  display: inline-flex;
+  gap: 7px;
+  min-height: 32px;
+  padding: 5px 9px;
+}
+
+.meta-item small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.meta-item strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.policy-conclusion {
+  background: #f7fbfa;
+  border: 1px solid #cfe7df;
+  border-radius: var(--radius);
+  color: #263d3a;
+  line-height: 1.7;
+  margin-bottom: 0;
+  padding: 12px 14px;
 }
 
 .tag {
@@ -205,8 +289,22 @@ select {
   background: #fff7ed;
 }
 
+.level-c {
+  color: var(--info);
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.level-d {
+  color: var(--muted);
+  border-color: var(--line);
+  background: #f8fafc;
+}
+
 .card-actions {
-  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
 }
 
 .card-actions button,
@@ -214,7 +312,23 @@ select {
   background: var(--accent);
   color: white;
   cursor: pointer;
+  font-weight: 700;
   padding: 0 14px;
+}
+
+.card-actions button:hover,
+.dialog-close:hover {
+  background: var(--accent-strong);
+}
+
+.empty-state {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+  margin: 0;
+  padding: 24px;
+  text-align: center;
 }
 
 .source-note {
@@ -249,5 +363,17 @@ dialog::backdrop {
 
   .top-nav {
     overflow-x: auto;
+  }
+
+  .policy-card-body {
+    padding: 16px;
+  }
+
+  .card-actions {
+    justify-content: stretch;
+  }
+
+  .card-actions button {
+    width: 100%;
   }
 }

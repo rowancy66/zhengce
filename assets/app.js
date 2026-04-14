@@ -123,9 +123,21 @@ function createTag(text, className) {
   return tag;
 }
 
+function createMetaItem(label, value) {
+  const item = document.createElement("span");
+  item.className = "meta-item";
+  const labelNode = document.createElement("small");
+  labelNode.textContent = label;
+  const valueNode = document.createElement("strong");
+  valueNode.textContent = value || "未知";
+  item.append(labelNode, valueNode);
+  return item;
+}
+
 function renderCard(policy) {
   const article = document.createElement("article");
-  article.className = "policy-card";
+  const level = String(policy.matchLevel || "").toLowerCase();
+  article.className = `policy-card ${level ? `policy-card-${level}` : ""}`.trim();
 
   const title = document.createElement("h3");
   title.textContent = policy.title || "未命名政策";
@@ -133,11 +145,11 @@ function renderCard(policy) {
   const meta = document.createElement("div");
   meta.className = "policy-meta";
 
-  for (const value of [policy.region || "未知地区", policy.sourceName || "未知来源", policy.publishDate || "未知日期"]) {
-    const span = document.createElement("span");
-    span.textContent = value;
-    meta.append(span);
-  }
+  meta.append(
+    createMetaItem("地区", policy.region || "未知地区"),
+    createMetaItem("来源", policy.sourceName || "未知来源"),
+    createMetaItem("日期", policy.publishDate || "未知日期")
+  );
 
   const tagRow = document.createElement("div");
   tagRow.className = "tag-row";
@@ -153,6 +165,7 @@ function renderCard(policy) {
   }
 
   const summary = document.createElement("p");
+  summary.className = "policy-conclusion";
   summary.textContent = policy.oneLineConclusion || policy.summary || "暂无分析结论。";
 
   const actions = document.createElement("div");
@@ -164,7 +177,11 @@ function renderCard(policy) {
   button.addEventListener("click", () => showPolicy(policy));
   actions.append(button);
 
-  article.append(title, meta, tagRow, summary, actions);
+  const body = document.createElement("div");
+  body.className = "policy-card-body";
+  body.append(meta, title, summary, tagRow, actions);
+
+  article.append(body);
   return article;
 }
 
@@ -214,8 +231,19 @@ function render() {
   elements.subsidy.textContent = String(state.policies.filter((policy) => policy.hasSubsidySignal).length);
   elements.updated.textContent = state.runLog?.lastRunAt ? state.runLog.lastRunAt.slice(0, 10) : "-";
 
-  elements.priorityList.replaceChildren(...priorityPolicies.map(renderCard));
-  elements.policyList.replaceChildren(...filteredPolicies.map(renderCard));
+  elements.priorityList.replaceChildren(...renderPolicyCards(priorityPolicies, "暂无重点跟进政策。"));
+  elements.policyList.replaceChildren(...renderPolicyCards(filteredPolicies, "没有符合当前筛选条件的政策。"));
+}
+
+function renderPolicyCards(policies, emptyText) {
+  if (policies.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = emptyText;
+    return [empty];
+  }
+
+  return policies.map(renderCard);
 }
 
 function bindEvents() {
