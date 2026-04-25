@@ -1,9 +1,9 @@
 {
-  "lastRunAt": "2026-04-24T03:36:39.225Z",
+  "lastRunAt": "2026-04-25T03:21:24.682Z",
   "status": "completed_with_errors",
-  "fetchedCount": 3,
-  "analyzedCount": 3,
-  "errorCount": 2,
+  "fetchedCount": 2,
+  "analyzedCount": 2,
+  "errorCount": 3,
   "errors": [
     {
       "source": "https://www.mohurd.gov.cn/gongkai/zhengce/index.html",
@@ -11,6 +11,10 @@
     },
     {
       "source": "https://www.shandong.gov.cn/col/col267492/",
+      "message": "fetch failed"
+    },
+    {
+      "source": "http://www.qingdao.gov.cn/zwgk/zdgk/fgwj/",
       "message": "fetch failed"
     }
   ],
